@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieReviews } from 'services';
+import { Wrapper } from './Reviews.styled';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -10,7 +11,7 @@ const Reviews = () => {
   }, [movieId]);
 
   return (
-    <div>
+    <Wrapper>
       {reviews.length === 0 ? (
         <p>We don't have any reviews for this movie</p>
       ) : (
@@ -23,7 +24,7 @@ const Reviews = () => {
           ))}
         </ul>
       )}
-    </div>
+    </Wrapper>
   );
 };
 

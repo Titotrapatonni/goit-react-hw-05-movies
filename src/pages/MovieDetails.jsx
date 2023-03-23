@@ -1,52 +1,56 @@
-import { useEffect, useState } from 'react';
-import {
-  Link,
-  NavLink,
-  Outlet,
-  useLocation,
-  useParams,
-} from 'react-router-dom';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { getMovieCard } from 'services';
+import {
+  BackLink,
+  DetailsLink,
+  Image,
+  List,
+  Title,
+  Wrapper,
+} from './MovieDetails.styled';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieCard, setMovieCard] = useState({});
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/movies';
+  const backLinkHref = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
     getMovieCard(movieId).then(data => setMovieCard(data));
   }, [movieId]);
 
   return (
-    <div>
-      <Link to={backLinkHref}>Back to collection</Link>
+    <Wrapper>
+      <BackLink to={backLinkHref.current}>Back to collection</BackLink>
       {movieCard.poster_path && (
-        <img
+        <Image
           src={`https://image.tmdb.org/t/p/w500/${movieCard.poster_path}`}
           alt="movie poster"
-          width="240"
+          width="400"
         />
       )}
       <h2>{movieCard.title}</h2>
       <p>User Score: {movieCard.vote_average}</p>
-      <h3>Overview:</h3>
+      <Title>Overview:</Title>
       <p>{movieCard.overview}</p>
-      <h3>Genres: </h3>
+      <Title>Genres: </Title>
       {movieCard.genres && (
         <p>{movieCard.genres.map(genre => genre.name).join(', ')}</p>
       )}
-      <h3>Additional information</h3>
-      <ul>
+      <Title>Additional information</Title>
+      <List>
         <li>
-          <NavLink to="cast">Cast</NavLink>
+          <DetailsLink to="cast">Cast</DetailsLink>
         </li>
         <li>
-          <NavLink to="reviews">Reviews</NavLink>
+          <DetailsLink to="reviews">Reviews</DetailsLink>
         </li>
-        <Outlet />
-      </ul>
-    </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
+      </List>
+    </Wrapper>
   );
 };
 

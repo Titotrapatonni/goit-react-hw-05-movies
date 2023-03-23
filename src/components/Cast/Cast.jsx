@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieCredits } from 'services';
+import { Wrapper } from './Cast.styled';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
-
   const { movieId } = useParams();
   useEffect(() => {
     getMovieCredits(movieId).then(data => setCast(data));
   }, [movieId]);
   return (
-    <div>
+    <Wrapper>
       <ul>
         {cast.map(actor => (
           <li key={actor.cast_id}>
@@ -26,7 +26,7 @@ const Cast = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </Wrapper>
   );
 };
 

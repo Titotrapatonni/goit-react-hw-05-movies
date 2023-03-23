@@ -1,7 +1,7 @@
 import { TrendingMoviesList } from 'components/TrendingMoviesList/TrendingMoviesList';
 
 const Home = () => {
-  return <TrendingMoviesList></TrendingMoviesList>;
+  return <TrendingMoviesList />;
 };
 
 export default Home;

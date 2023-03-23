@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { getTrendingMovies } from 'services';
+import { Item, List, MovieLink } from './TrendingMoviesList.styled';
 
 export const TrendingMoviesList = () => {
   const location = useLocation();
@@ -10,14 +11,16 @@ export const TrendingMoviesList = () => {
     getTrendingMovies().then(movies => setTrendingMovies(movies));
   }, []);
   return (
-    <ul>
-      {trendingMovies.map(movie => (
-        <li key={movie.id}>
-          <Link to={`/movies/${movie.id}`} state={{ from: location }}>
-            {movie.title}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <main>
+      <List>
+        {trendingMovies.map(movie => (
+          <Item key={movie.id}>
+            <MovieLink to={`/movies/${movie.id}`} state={{ from: location }}>
+              {movie.title}
+            </MovieLink>
+          </Item>
+        ))}
+      </List>
+    </main>
   );
 };

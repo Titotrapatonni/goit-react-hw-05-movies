@@ -1,5 +1,11 @@
+import {
+  Item,
+  List,
+  MovieLink,
+} from 'components/TrendingMoviesList/TrendingMoviesList.styled';
+import { Title } from 'pages/MovieDetails.styled';
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { getSearchMovie } from 'services';
 
 export const SearchMoviesList = () => {
@@ -15,14 +21,18 @@ export const SearchMoviesList = () => {
     getSearchMovie(query).then(movies => setSearchList(movies));
   }, [query]);
   return (
-    <ul>
-      {searchList.map(movie => (
-        <li key={movie.id}>
-          <Link to={`/movies/${movie.id}`} state={{ from: location }}>
-            {movie.title}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <List>
+      {searchList.length === 0 ? (
+        <Title>Try to find your favorite movie</Title>
+      ) : (
+        searchList.map(movie => (
+          <Item key={movie.id}>
+            <MovieLink to={`/movies/${movie.id}`} state={{ from: location }}>
+              {movie.title}
+            </MovieLink>
+          </Item>
+        ))
+      )}
+    </List>
   );
 };

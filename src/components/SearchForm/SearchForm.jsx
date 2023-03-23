@@ -1,4 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
+import { Form, Input, SearchBtn } from './SearchForm.styled';
 
 export const SearchForm = () => {
   const [, setSearchParams] = useSearchParams();
@@ -12,9 +13,9 @@ export const SearchForm = () => {
     e.currentTarget.reset();
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="query" />
-      <button type="submit">Search</button>
-    </form>
+    <Form onSubmit={handleSubmit}>
+      <Input type="text" name="query" />
+      <SearchBtn type="submit">Search</SearchBtn>
+    </Form>
   );
 };
